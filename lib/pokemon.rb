@@ -12,13 +12,14 @@ class Pokemon
     database_connection.execute("INSERT INTO pokemon (name, type) VALUES (?, ?)", name, type)
   end 
   
-  def self.find(id, database_connection)
-    pokemon = database_connection.execute("SELECT * FROM pokemon WHERE id = ?", id)
-    pokemon = Pokemon.new(id, name, type, db)
-    id = pokemon[0]
-    name = pokemon[1]
-    type = pokemon[2]
-    db = pokemon[3]
-  end 
+  def self.find(num, db)
+    pokemon = db.execute("SELECT * FROM pokemon WHERE id=?", [num])
+    new_pokemon = self.new(pokemon)
+    new_pokemon.id = pokemon[0][0]
+    new_pokemon.name = pokemon[0][1]
+    new_pokemon.type = pokemon[0][2]
+    new_pokemon.hp = pokemon[0][3]
+    return new_pokemon
+  end
 
 end
